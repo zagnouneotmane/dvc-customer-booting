@@ -1,0 +1,151 @@
+schema: '2.0'
+stages:
+  data_load:
+    cmd: python src/stages/data_load.py --config=params.yaml
+    deps:
+    - path: src/stages/data_load.py
+      hash: md5
+      md5: 9662f50f7247acdc2619b462a551d466
+      size: 873
+    - path: src/utils/data_utils.py
+      hash: md5
+      md5: f0f36186c0c1159b306fad4575e07ad6
+      size: 5463
+    params:
+      params.yaml:
+        base:
+          random_state: 0
+        data_load:
+          dataset_url: https://customer-booking-s3.s3.eu-west-3.amazonaws.com/customer_booking.csv
+          data_dir: data/data_ingestion
+          file_name: customer_booking.csv
+    outs:
+    - path: data/data_ingestion/customer_booking.csv
+      hash: md5
+      md5: b96996b629f4a90ad10d2273bb76b869
+      size: 3146444
+  data_split:
+    cmd: python src/stages/data_split.py --config=params.yaml
+    deps:
+    - path: data/data_ingestion/customer_booking.csv
+      hash: md5
+      md5: b96996b629f4a90ad10d2273bb76b869
+      size: 3146444
+    - path: src/stages/data_split.py
+      hash: md5
+      md5: cfcb375906ed5fa479012ae13e8d2b01
+      size: 1060
+    - path: src/utils/data_utils.py
+      hash: md5
+      md5: f0f36186c0c1159b306fad4575e07ad6
+      size: 5463
+    params:
+      params.yaml:
+        base:
+          random_state: 0
+        data_load:
+          dataset_url: https://customer-booking-s3.s3.eu-west-3.amazonaws.com/customer_booking.csv
+          data_dir: data/data_ingestion
+          file_name: customer_booking.csv
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+    outs:
+    - path: data/data_transformation/test.csv
+      hash: md5
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
+    - path: data/data_transformation/train.csv
+      hash: md5
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
+  train:
+    cmd: python src/stages/train.py --config=params.yaml
+    deps:
+    - path: data/data_transformation/train.csv
+      hash: md5
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
+    - path: src/stages/train.py
+      hash: md5
+      md5: eeffcc1de0192425e7e37694f3ae7370
+      size: 1650
+    - path: src/utils/train_utils.py
+      hash: md5
+      md5: ab44732b1e6fa1e4bff8635660bd4ce4
+      size: 1226
+    params:
+      params.yaml:
+        base:
+          random_state: 0
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+        train:
+          class_weight:
+            0: 1
+            1: 4
+          criterion: gini
+          max_leaf_nodes: 20
+          min_samples_split: 2
+          min_samples_leaf: 2
+          splitter: random
+          target_column: booking_complete
+          model_path: models
+          model_name: model.joblib
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 4a83fbdbf1198db702c2e6a8b90477c1
+      size: 6809
+  evaluate:
+    cmd: python src/stages/eval.py --config=params.yaml
+    deps:
+    - path: data/data_transformation/test.csv
+      hash: md5
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
+    - path: models/model.joblib
+      hash: md5
+      md5: 4a83fbdbf1198db702c2e6a8b90477c1
+      size: 6809
+    - path: src/stages/eval.py
+      hash: md5
+      md5: 3585ac0a3522a5756eb0cab21e15cd26
+      size: 1325
+    - path: src/utils/eval_utils.py
+      hash: md5
+      md5: e6b50db7ab2082281e564dd0b9b0f4ed
+      size: 1399
+    params:
+      params.yaml:
+        base:
+          random_state: 0
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+        evaluate:
+          metrics_file: evaluation/metrics.json
+        train:
+          class_weight:
+            0: 1
+            1: 4
+          criterion: gini
+          max_leaf_nodes: 20
+          min_samples_split: 2
+          min_samples_leaf: 2
+          splitter: random
+          target_column: booking_complete
+          model_path: models
+          model_name: model.joblib
+    outs:
+    - path: evaluation/metrics.json
+      hash: md5
+      md5: cf40c444b942b9af1a01f492efb5aec8
+      size: 146
