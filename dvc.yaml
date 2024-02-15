@@ -34,6 +34,7 @@ stages:
     - train
     outs:
     - models/model.joblib
+    - training/metrics.json
   evaluate:
     cmd: python src/stages/eval.py --config=params.yaml
     deps:
@@ -46,10 +47,14 @@ stages:
     - train
     - data_split
     - evaluate
-    metrics:
+    outs:
     - evaluation/metrics.json
+
 metrics:
-- dvclive/metrics.json
+- dvclivetraining/metrics.json
+- dvcliveevaluation/metrics.json
 plots:
-- dvclive/plots/metrics:
+- dvclivetraining/plots/metrics:
+    x: step
+- dvcliveevaluation/plots/metrics:
     x: step

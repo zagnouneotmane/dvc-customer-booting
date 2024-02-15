@@ -34,7 +34,7 @@ def get_metrics(train_test_dir_path,
     logger.info(f"Model Scores: {target_column}")
     return scores
 def log_into_dvclive(scores):
-    with Live() as live:
+    with Live(dir="dvcliveevaluation") as live:
         #live.log_params(params=params)
         live.log_metric("accuracy", scores["accuracy"])
         live.log_metric("precision", scores["precision"])
