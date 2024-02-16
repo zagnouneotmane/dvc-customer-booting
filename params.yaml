@@ -15,12 +15,14 @@ data_split:
 
 
 train:
-  class_weight: {0: 1, 1: 3}
-  criterion: gini
-  max_leaf_nodes: 20
+  selectkbest__k: 55
+  n_estimators: 500
   min_samples_split: 2
-  min_samples_leaf: 2
-  splitter: random
+  min_samples_leaf: 8
+  max_features: sqrt
+  max_depth: 30
+  criterion: gini
+  class_weight: {0: 1, 1: 5}
   target_column: booking_complete
   metrics_train_file: training/metrics.json
   model_path: models

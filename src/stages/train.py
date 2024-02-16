@@ -12,28 +12,32 @@ from src.utils.train_utils import train_model
 def train_and_save_model(params):
     random_state = params.base.random_state
     train_test_dir_path = Path(params.data_split.train_test_dir_path)
-    class_weight = params.train.class_weight
-    criterion = params.train.criterion
-    max_leaf_nodes = params.train.max_leaf_nodes
+    selectkbest__k =  params.train.selectkbest__k
+    n_estimators = params.train.n_estimators
     min_samples_split = params.train.min_samples_split
     min_samples_leaf = params.train.min_samples_leaf
-    splitter = params.train.splitter
+    max_features = params.train.max_features
+    max_depth = params.train.max_depth
+    criterion = params.train.criterion
+    class_weight = params.train.class_weight
     target_column = params.train.target_column
     metrics_train_file_path = params.train.metrics_train_file
     model_name = params.train.model_name
     model_path = Path(params.train.model_path).absolute()
     model_path.mkdir(exist_ok=True)
-    metrics = train_model(train_test_dir_path=train_test_dir_path,
-                class_weight=class_weight,
-                max_leaf_nodes=max_leaf_nodes,
-                criterion=criterion,
-                min_samples_split=min_samples_split,
-                splitter=splitter,
-                min_samples_leaf=min_samples_leaf,
-                target_column=target_column,
-                model_name=model_name,
-                model_path=model_path,
-                seed=random_state)
+    metrics = train_model(train_test_dir_path=train_test_dir_path,                         
+                        selectkbest__k=selectkbest__k,
+                        n_estimators=n_estimators,
+                        class_weight=class_weight,
+                        max_depth=max_depth,
+                        criterion=criterion,
+                        min_samples_split=min_samples_split,
+                        max_features=max_features,
+                        min_samples_leaf=min_samples_leaf,
+                        target_column=target_column,
+                        model_name=model_name,
+                        model_path=model_path,
+                        seed=random_state)
     Path(params.train.metrics_train_file).parent.mkdir(parents=True, exist_ok=True)
     json.dump(
         obj=metrics,
