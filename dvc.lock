@@ -98,7 +98,7 @@ stages:
           criterion: gini
           class_weight:
             0: 1
-            1: 5
+            1: 4
           target_column: booking_complete
           metrics_train_file: training/metrics.json
           model_path: models
@@ -106,12 +106,12 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 7ede34d469299588c6242b2c568f22d0
-      size: 20920591
+      md5: 797288d11c3ccfc725d4c92b2ca33570
+      size: 21060751
     - path: training/metrics.json
       hash: md5
-      md5: 3cd1beefd3faab5cf4d7eb00a927e6aa
-      size: 1828
+      md5: fe99b921168a50a6aa0cb083d4067c1f
+      size: 1827
   evaluate:
     cmd: python src/stages/eval.py --config=params.yaml
     deps:
@@ -121,16 +121,16 @@ stages:
       size: 1121213
     - path: models/model.joblib
       hash: md5
-      md5: 7ede34d469299588c6242b2c568f22d0
-      size: 20920591
+      md5: 797288d11c3ccfc725d4c92b2ca33570
+      size: 21060751
     - path: src/stages/eval.py
       hash: md5
-      md5: 3585ac0a3522a5756eb0cab21e15cd26
-      size: 1325
+      md5: 70ff0856697b7c1ef4d0364d86f66f68
+      size: 1504
     - path: src/utils/eval_utils.py
       hash: md5
-      md5: 511fbd9a7a52fdd549f03d53a2290a9a
-      size: 1422
+      md5: 456eaf50c1d9ba3a6c85ed6637dbe815
+      size: 2105
     params:
       params.yaml:
         base:
@@ -153,7 +153,7 @@ stages:
           criterion: gini
           class_weight:
             0: 1
-            1: 5
+            1: 4
           target_column: booking_complete
           metrics_train_file: training/metrics.json
           model_path: models
@@ -161,5 +161,5 @@ stages:
     outs:
     - path: evaluation/metrics.json
       hash: md5
-      md5: 35342e7b635b61fac930ff4859273f41
+      md5: 797522dddf73b1aa5be3cee77bc665e0
       size: 145

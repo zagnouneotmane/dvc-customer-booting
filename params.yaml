@@ -22,7 +22,7 @@ train:
   max_features: sqrt
   max_depth: 30
   criterion: gini
-  class_weight: {0: 1, 1: 5}
+  class_weight: {0: 1, 1: 4}
   target_column: booking_complete
   metrics_train_file: training/metrics.json
   model_path: models

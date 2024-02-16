@@ -6,7 +6,7 @@ import os
 import argparse
 import json
 
-from src.utils.eval_utils import get_metrics, log_into_dvclive
+from src.utils.eval_utils import get_metrics
 from src.utils.load_params import load_params
 
 
@@ -17,10 +17,12 @@ def evaluate(params):
     model_name = params.train.model_name
     model_file_path = Path(os.path.join(model_path, model_name)).absolute()
     metrics_file_path = params.evaluate.metrics_file
+    metrics_file_plot_path = Path(params.evaluate.metrics_file).parent
+    Path(params.evaluate.metrics_file).parent.mkdir(parents=True, exist_ok=True)
     metrics = get_metrics(train_test_dir_path=train_test_dir_path,
                           model_file_path=model_file_path,
+                          metrics_file_plot_path=metrics_file_plot_path,
                           target_column=target_column)
-    log_into_dvclive(metrics)
     Path(params.evaluate.metrics_file).parent.mkdir(parents=True, exist_ok=True)
 
     json.dump(
