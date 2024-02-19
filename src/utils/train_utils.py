@@ -44,7 +44,7 @@ def train_model(train_test_dir_path,
                                                 min_samples_leaf=min_samples_leaf,
                                                 random_state=seed)
     model = make_pipeline(SelectKBest(f_classif, k=selectkbest__k), rf_classifier )
-    #model = rf_classifier
+    model = rf_classifier
     model.fit(train_x, train_y)
     logger.info(f"training model {model_name}")
     live = Live(dir="dvclivetraining")

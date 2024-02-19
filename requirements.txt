@@ -15,3 +15,5 @@ types-PyYAML
 dvc[s3]
 python-box
 dvclive>=1.0
+fastapi[all]
+uvicorn

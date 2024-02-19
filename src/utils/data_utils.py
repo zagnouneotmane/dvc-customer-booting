@@ -60,7 +60,7 @@ def categorize_flight_time(hour):
     
 def encoding(df, fct):
 
-    df['flight_time_of_day'] = df['flight_hour'] // 100  # Extract hour
+    df['flight_time_of_day'] = df['flight_hour'] // 24  # Extract hour
     df['flight_time_of_day'] = df['flight_time_of_day'].apply(fct)
 
 
@@ -84,6 +84,14 @@ def encoding(df, fct):
     df = pd.get_dummies(df, columns=['flight_time_of_day'], prefix='flight_time_of_day', drop_first=True)
 
     logger.info(f"encoding data {df.shape}")
+    return df
+
+def encoding_test(df, categorize_flight_time):
+    df['flight_time_of_day'] = df['flight_hour'] // 24  # Extract hour
+    df['flight_time_of_day'] = df['flight_time_of_day'].apply(categorize_flight_time)
+    df['flight_time_of_day'] = df['flight_time_of_day'].astype('category')
+    df = pd.get_dummies(df, columns=['flight_time_of_day'], prefix='flight_time_of_day', drop_first=True)
+    logger.info(f"encoding api test data {df.shape}")
     return df
 
 def feature_engineering(df):
@@ -130,7 +138,6 @@ def create_test_dataset(file_path,
     logger.info("Splited data into training and test sets")
     
     trainset, testset = supp(trainset, testset,'route')
-    trainset, testset = supp(trainset, testset,'route')
     trainset, testset = supp(trainset, testset,'booking_origin')
     trainset = encoding(trainset, categorize_flight_time)
     trainset = feature_engineering(trainset)
@@ -139,6 +146,31 @@ def create_test_dataset(file_path,
     testset = feature_engineering(testset)
     testset = imputation(testset)
     save_train_test(train_test_dir_path,train=trainset, test=testset)
+
+
+
+def handlapitest(df, dataset_path):
+    #dftest
+    test_data = pd.read_csv(dataset_path, encoding = "ISO-8859-1")
+    test_data = test_data.drop('booking_complete', axis=1)
+
+    # Preprocessing steps
+    df_apitest = pd.DataFrame(columns=test_data.columns).astype(test_data.dtypes)
+    for col in df.select_dtypes('float64').columns:
+        df_apitest[col] = df[col]
+    for col in df.select_dtypes('int64').columns:
+        df_apitest[col] = df[col]
+    # Handle missing columns by adding them and setting them to zero
+    missing_columns = set(test_data.select_dtypes('bool').columns) - set(df.select_dtypes('bool').columns)
+    missing_columns
+
+    for col in missing_columns:
+        df_col = "_".join(col.split('_')[:-1])
+        df_value = col.split('_')[-1]
+
+        df_apitest[col] = (df[df_col] == df_value)
+    logger.info(f"handl api test data {df_apitest.shape}")
+    return df_apitest
 
     
     
