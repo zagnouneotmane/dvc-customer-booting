@@ -30,8 +30,7 @@ jobs:
       - name: Update libc6 and install
         run: |
           sudo apt update
-          sudo apt install -y libc6
-          apt policy libc6
+          sudo apt purge glibc-source -y
       - name: dvc-repro-cml
         env:
           # set these secrets via gh CLI or UI. See also:
