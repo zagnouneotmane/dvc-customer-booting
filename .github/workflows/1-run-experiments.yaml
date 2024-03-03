@@ -29,7 +29,7 @@ jobs:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: dvc-repro-cml
         env:
-          # set these secrets via gh CLI or UI. See also:
+          # set these secrets via gh CLI or UI. See also: 
           # https://cml.dev/doc/self-hosted-runners?tab=GitHub#personal-access-token
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
