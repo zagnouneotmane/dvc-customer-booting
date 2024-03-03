@@ -27,6 +27,10 @@ jobs:
         run: cml ci
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Update libc6 and install
+        run: |
+          sudo apt update
+          sudo apt install -y libc6
       - name: dvc-repro-cml
         env:
           # set these secrets via gh CLI or UI. See also:
