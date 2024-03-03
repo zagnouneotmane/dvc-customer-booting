@@ -46,4 +46,4 @@ jobs:
           
           ########################
           
-          cml send-comment --pr --update report.md
+          cml comment create --target=pr --update report.md
