@@ -6,7 +6,7 @@ on:
 jobs:
    train-model:
     runs-on: ubuntu-latest
-    container: ghcr.io/iterative/cml:0-dvc2-base1
+    #container: ghcr.io/iterative/cml:0-dvc2-base1
     environment: cloud
     permissions:
       contents: read
@@ -24,6 +24,14 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
       - name: cml setup
+        run: cml ci
+        env:
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: dvc-repro-cml
+        env:
+          # set these secrets via gh CLI or UI. See also:
+          # https://cml.dev/doc/self-hosted-runners?tab=GitHub#personal-access-token
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           # Install dependencies
           pip install -r requirements.txt
