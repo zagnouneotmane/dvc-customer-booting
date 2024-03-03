@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v2
         with:
-            python-version: "3.x"
+            python-version: "3.9"
       - uses: iterative/setup-cml@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -31,6 +31,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libc6
+          apt policy libc6
       - name: dvc-repro-cml
         env:
           # set these secrets via gh CLI or UI. See also:
