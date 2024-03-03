@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
             python-version: "3.9"
       - uses: iterative/setup-cml@v1
@@ -24,18 +24,6 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
       - name: cml setup
-        run: cml ci
-        env:
-          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      - name: Update libc6 and install
-        run: |
-          sudo apt update
-          sudo apt purge glibc-source -y
-      - name: dvc-repro-cml
-        env:
-          # set these secrets via gh CLI or UI. See also:
-          # https://cml.dev/doc/self-hosted-runners?tab=GitHub#personal-access-token
-          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           # Install dependencies
           pip install -r requirements.txt
