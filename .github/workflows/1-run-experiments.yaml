@@ -38,7 +38,7 @@ jobs:
           dvc pull
           dvc repro
           dvc push
-          cml pr --skip-ci .
+          cml pr --squash --skip-ci .
           
           ### Create CML report ###
           echo "## Metrics" >> report.md
