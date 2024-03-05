@@ -43,7 +43,7 @@ jobs:
           ### Create CML report ###
           echo "## Metrics" >> report.md
           dvc metrics show --md >> report.md
-          
+          done
           ########################
           
-          cml comment create --target=pr report.md
+          cml comment create report.md
