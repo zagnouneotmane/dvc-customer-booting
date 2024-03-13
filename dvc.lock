@@ -5,12 +5,12 @@ stages:
     deps:
     - path: src/stages/data_load.py
       hash: md5
-      md5: 11584e1d1b7883678e86ae83f53023c5
-      size: 839
+      md5: 9662f50f7247acdc2619b462a551d466
+      size: 873
     - path: src/utils/data_utils.py
       hash: md5
-      md5: 9bb63403ad1304f6de13d4c271b54cd6
-      size: 6619
+      md5: 078ee53c9c203c72e7951c4fff79971d
+      size: 6795
     params:
       params.yaml:
         base:
@@ -34,12 +34,12 @@ stages:
       size: 3146444
     - path: src/stages/data_split.py
       hash: md5
-      md5: 53f240dcdb2879af3355d85f11bb1037
-      size: 1024
+      md5: cfcb375906ed5fa479012ae13e8d2b01
+      size: 1060
     - path: src/utils/data_utils.py
       hash: md5
-      md5: 9bb63403ad1304f6de13d4c271b54cd6
-      size: 6619
+      md5: 078ee53c9c203c72e7951c4fff79971d
+      size: 6795
     params:
       params.yaml:
         base:
@@ -57,27 +57,27 @@ stages:
     outs:
     - path: data/data_transformation/test.csv
       hash: md5
-      md5: b6a4c6ae4a2f7c4954b2f2753a9a5dc3
-      size: 1118726
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
     - path: data/data_transformation/train.csv
       hash: md5
-      md5: 1f11a69d8b87c58ffcf2ee1615d80894
-      size: 4497823
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
   train:
     cmd: python src/stages/train.py --config=params.yaml
     deps:
     - path: data/data_transformation/train.csv
       hash: md5
-      md5: 1f11a69d8b87c58ffcf2ee1615d80894
-      size: 4497823
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
     - path: src/stages/train.py
       hash: md5
-      md5: 62ee5668e752290258a6b11814b7d3f6
-      size: 2181
+      md5: 42aa65eadd53f26e8cc996b26df9f32d
+      size: 2236
     - path: src/utils/train_utils.py
       hash: md5
-      md5: 13561170ac0cd0014f478391047f92b1
-      size: 2900
+      md5: b2682689852bf760665458d0f4862ebc
+      size: 2971
     params:
       params.yaml:
         base:
@@ -98,7 +98,7 @@ stages:
           criterion: gini
           class_weight:
             0: 1
-            1: 5
+            1: 4
           target_column: booking_complete
           metrics_train_file: training/metrics.json
           model_path: models
@@ -106,31 +106,31 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: a9ba21e0e5ac3e7ab330dde961c3fcc5
-      size: 26174841
+      md5: 0a923ba89baae1d6b37b4bdf79e8f02c
+      size: 26078121
     - path: training/metrics.json
       hash: md5
-      md5: e0ffd938c0bf97168671859ace1b22b8
-      size: 1758
+      md5: f668908c7d95673f2d4e809a02e5bc37
+      size: 1823
   evaluate:
     cmd: python src/stages/eval.py --config=params.yaml
     deps:
     - path: data/data_transformation/test.csv
       hash: md5
-      md5: b6a4c6ae4a2f7c4954b2f2753a9a5dc3
-      size: 1118726
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
     - path: models/model.joblib
       hash: md5
-      md5: a9ba21e0e5ac3e7ab330dde961c3fcc5
-      size: 26174841
+      md5: 0a923ba89baae1d6b37b4bdf79e8f02c
+      size: 26078121
     - path: src/stages/eval.py
       hash: md5
-      md5: d912f2e2c40e1fe2f0df401140a390c7
-      size: 1463
+      md5: 70ff0856697b7c1ef4d0364d86f66f68
+      size: 1504
     - path: src/utils/eval_utils.py
       hash: md5
-      md5: bbb2dc6d5a5364334c78160f96770604
-      size: 2049
+      md5: 71e9046f7cdd58fa40eb771e1ece37e9
+      size: 2117
     params:
       params.yaml:
         base:
@@ -153,7 +153,7 @@ stages:
           criterion: gini
           class_weight:
             0: 1
-            1: 5
+            1: 4
           target_column: booking_complete
           metrics_train_file: training/metrics.json
           model_path: models
@@ -161,5 +161,5 @@ stages:
     outs:
     - path: evaluation/metrics.json
       hash: md5
-      md5: b45c7a24c0cbc4b54d88981b89833bd8
-      size: 141
+      md5: ae42309288ad84544b0e298c6aa96faf
+      size: 145

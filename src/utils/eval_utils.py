@@ -35,15 +35,7 @@ def get_metrics(train_test_dir_path,
     scores = {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
 
     logger.info(f"Calculating Model Scores")
-    # Plot confusion matrix
-    cm = confusion_matrix(test_y, predicted_booking)
-
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
-    disp.plot()
-
-    # Save confusion matrix
-    plt.savefig(metrics_file_plot_path / "confusion_matrix.png", dpi=150, bbox_inches='tight', pad_inches=0)
-    logger.info("Save confusion matrix")
+    
 
     with Live(dir="dvcliveevaluation",report="md") as live:
         #live.log_params(params=params)
@@ -53,4 +45,14 @@ def get_metrics(train_test_dir_path,
         live.log_metric("recall", scores["recall"])
         live.log_metric( "f1", scores["f1"])
         live.log_sklearn_plot("confusion_matrix", test_y, predicted_booking)
+    
+    # Plot confusion matrix
+    cm = confusion_matrix(test_y, predicted_booking)
+
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp.plot()
+
+    # Save confusion matrix
+    plt.savefig(metrics_file_plot_path / "confusion_matrix.png", dpi=150, bbox_inches='tight', pad_inches=0)
+    logger.info("Save confusion matrix")
     return scores
