@@ -4,7 +4,7 @@ metrics.json
 
 |   accuracy |   precision |   recall |       f1 |
 |------------|-------------|----------|----------|
-|   0.783186 |    0.395963 |  0.62963 | 0.486177 |
+|   0.761464 |    0.373315 | 0.683951 | 0.482999 |
 
 ![static/accuracy](static\accuracy.png)
 
