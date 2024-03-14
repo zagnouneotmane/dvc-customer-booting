@@ -65,3 +65,10 @@ plots:
     title: Confusion Matrix
     x_label: True Label
     y_label: Predicted Label
+artifacts:
+  model:
+    path: models/model.joblib
+    desc: 'RandomForestClassifier for customer-booking '
+    type: model
+    labels:
+    - RandomForestClassifier
