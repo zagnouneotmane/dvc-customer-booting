@@ -7,7 +7,7 @@ from pathlib import Path
 from src.utils.data_utils import encoding_test, feature_engineering, imputation, categorize_flight_time, handlapitest
 
 MODEL_PICKEL_PATH = Path('models/model.joblib').absolute()
-DATA_SCHEMA_PATH = Path("data/data_transformation/test.csv").absolute()
+DATA_SCHEMA_PATH = Path("columns_test.csv").absolute()
 
 # Define FastAPI app
 app = FastAPI()
